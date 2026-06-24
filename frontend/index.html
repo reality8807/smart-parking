@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Park | Premium IoT Parking</title>
+    <meta name="description" content="Real-time IoT smart parking dashboard with QR reservation">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+    </div>
+
+    <main class="dashboard">
+        <header>
+            <h1>Smart <span>Park</span></h1>
+            <p>Real-time slot availability & reservation</p>
+        </header>
+
+        <div class="parking-grid" id="parkingGrid">
+            <!-- Slots will be rendered here by JS -->
+        </div>
+
+        <!-- Modal for showing QR Code -->
+        <div class="modal-overlay" id="qrModal">
+            <div class="modal-content glass-panel">
+                <button class="close-btn" id="closeModal">&times;</button>
+                <h2>Booking Confirmed!</h2>
+                <p>Scan this QR code at the entrance camera to open your gate.</p>
+                <div class="qr-container" id="qrContainer">
+                    <img id="qrImage" src="" alt="Your QR Code">
+                </div>
+                <p class="token-text">Token: <span id="tokenText"></span></p>
+                <p class="instruction-text">Show this to the ESP32-CAM</p>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="spinner"></div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
