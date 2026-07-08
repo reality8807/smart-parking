@@ -1,8 +1,8 @@
 // ============================================================
 // LOCAL TESTING (active right now)
 // ============================================================
-const API_BASE = 'http://localhost:8000/api';
-const WS_URL = 'ws://localhost:8000/ws';
+//const API_BASE = 'http://localhost:8000/api';
+//const WS_URL = 'ws://localhost:8000/ws';
 
 // ============================================================
 // ONRENDER DEPLOYMENT
@@ -10,8 +10,8 @@ const WS_URL = 'ws://localhost:8000/ws';
 // uncomment the two lines below. Replace the URL with your
 // actual Render app URL.
 // ============================================================
-// const API_BASE = 'https://your-app-name.onrender.com/api';
-// const WS_URL  = 'wss://your-app-name.onrender.com/ws';
+const API_BASE = 'https://smart-parking-033r.onrender.com/api';
+const WS_URL  = 'wss://smart-parking-033r.onrender.com/ws';
 
 const grid = document.getElementById('parkingGrid');
 const modal = document.getElementById('qrModal');
