@@ -1,7 +1,6 @@
 fastapi
 uvicorn
 websockets
-pyzbar
 opencv-python-headless
 pillow
 python-multipart
