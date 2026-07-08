@@ -4,6 +4,8 @@ import cv2
 import numpy as np
 import qrcode
 from fastapi import FastAPI, UploadFile, File, Form, WebSocket, WebSocketDisconnect
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List
@@ -165,6 +167,19 @@ async def update_ir(req: IRUpdateRequest):
         await broadcast_state()
         return {"status": "success"}
     return {"status": "error"}
+
+# ---------------------------------------------------------
+# Serve Frontend Files
+# ---------------------------------------------------------
+# The frontend folder sits next to the backend folder in the repo
+frontend_dir = os.path.join(os.path.dirname(__file__), "..", "frontend")
+
+@app.get("/")
+async def serve_index():
+    return FileResponse(os.path.join(frontend_dir, "index.html"))
+
+# Serve CSS, JS, and other static assets from the frontend folder
+app.mount("/", StaticFiles(directory=frontend_dir), name="frontend")
 
 # ---------------------------------------------------------
 # Run configuration
