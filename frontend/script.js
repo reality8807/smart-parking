@@ -1,17 +1,10 @@
 // ============================================================
-// LOCAL TESTING (active right now)
+// AUTO-DETECT URLs
+// Works on both localhost AND OnRender without any changes!
 // ============================================================
-//const API_BASE = 'http://localhost:8000/api';
-//const WS_URL = 'ws://localhost:8000/ws';
-
-// ============================================================
-// ONRENDER DEPLOYMENT
-// When ready to deploy, comment out the two lines above and
-// uncomment the two lines below. Replace the URL with your
-// actual Render app URL.
-// ============================================================
-const API_BASE = 'https://smart-parking-033r.onrender.com/api';
-const WS_URL  = 'wss://smart-parking-033r.onrender.com/ws';
+const isSecure = window.location.protocol === 'https:';
+const API_BASE = `${window.location.origin}/api`;
+const WS_URL = `${isSecure ? 'wss' : 'ws'}://${window.location.host}/ws`;
 
 const grid = document.getElementById('parkingGrid');
 const modal = document.getElementById('qrModal');
