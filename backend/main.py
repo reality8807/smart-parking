@@ -7,7 +7,7 @@ from fastapi import FastAPI, UploadFile, File, Form, WebSocket, WebSocketDisconn
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List
-from pyzbar.pyzbar import decode
+# Using OpenCV's built-in QR decoder (no system library needed)
 import json
 import uuid
 import os
@@ -122,12 +122,12 @@ async def verify_qr(image_file: UploadFile = File(...)):
         if img is None:
             return {"status": "error", "message": "Invalid image"}
         
-        # Decode QR codes in image
-        decoded_objects = decode(img)
-        if not decoded_objects:
-            return {"status": "no_qr"}
+        # Decode QR codes using OpenCV's built-in detector
+        detector = cv2.QRCodeDetector()
+        qr_data, _, _ = detector.detectAndDecode(img)
         
-        qr_data = decoded_objects[0].data.decode("utf-8")
+        if not qr_data:
+            return {"status": "no_qr"}
         
         # Check if the scanned token matches any booked slot
         for slot_id, data in slots.items():
