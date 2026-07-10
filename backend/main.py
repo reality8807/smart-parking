@@ -9,10 +9,10 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Dict, List
-# Using OpenCV's built-in QR decoder (no system library needed)
 import json
 import uuid
 import os
+import asyncio
 
 app = FastAPI()
 
@@ -77,6 +77,14 @@ async def get_slots():
 class BookRequest(BaseModel):
     slot_id: int
 
+async def expire_booking(slot_id: int, token: str):
+    """Wait 60 seconds, then free the slot if it's still booked with the same token."""
+    await asyncio.sleep(60)
+    if slots[slot_id].get("status") == "booked" and slots[slot_id].get("token") == token:
+        slots[slot_id]["status"] = "empty"
+        slots[slot_id]["token"] = None
+        await broadcast_state()
+
 @app.post("/api/book")
 async def book_slot(req: BookRequest):
     slot_id = req.slot_id
@@ -103,6 +111,9 @@ async def book_slot(req: BookRequest):
     
     # Notify all clients of state change
     await broadcast_state()
+    
+    # Start a 60-second timer to auto-expire the booking
+    asyncio.create_task(expire_booking(slot_id, token))
     
     return {"message": "Success", "qr_code": f"data:image/png;base64,{qr_base64}", "token": token}
 
